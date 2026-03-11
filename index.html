@@ -77,6 +77,9 @@
 
       --card-bg: rgba(255,255,255,.03);
       --card-hover: rgba(255,255,255,.06);
+
+      /* NEW: active nav + glow */
+      --glow: 0 18px 70px rgba(140,255,223,.14);
     }
 
     /* Light mode overrides */
@@ -107,6 +110,8 @@
 
       --card-bg: rgba(0,0,0,.03);
       --card-hover: rgba(0,0,0,.05);
+
+      --glow: 0 22px 90px rgba(82,124,255,.12);
     }
 
     *{ box-sizing:border-box; }
@@ -199,7 +204,9 @@
     }
     .brand{ display:flex; align-items:center; gap:12px; min-width: 280px; }
     .dot{
-      width: 12px; height:12px; border-radius:999px;
+      width: 12px;
+      height:12px;
+      border-radius:999px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       box-shadow: 0 0 0 7px rgba(140,255,223,.12), 0 0 46px rgba(140,255,223,.22);
     }
@@ -207,8 +214,11 @@
     .brand small{ display:block; font-size: 12px; color: var(--muted2); margin-top: 2px; letter-spacing:.2px; }
 
     .nav-links{
-      display:flex; gap: 10px; flex-wrap:wrap;
-      align-items:center; justify-content:center;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
     }
     .nav-links a{
       padding: 10px 12px;
@@ -217,12 +227,31 @@
       border-radius: 12px;
       color: var(--text);
       font-size: 13px;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+      position: relative;
     }
     .nav-links a:hover{
       background: var(--link-chip-hover);
       transform: translateY(-1px);
       border-color: rgba(140,255,223,.22);
+    }
+
+    /* NEW: active section style */
+    .nav-links a.is-active{
+      border-color: rgba(140,255,223,.55);
+      background: linear-gradient(135deg, rgba(140,255,223,.18), rgba(82,124,255,.10));
+      box-shadow: 0 16px 60px rgba(140,255,223,.10);
+    }
+    .nav-links a.is-active::after{
+      content:"";
+      position:absolute;
+      left: 10px;
+      right: 10px;
+      bottom: -6px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(140,255,223,.85), rgba(82,124,255,.75));
+      opacity: .9;
     }
 
     .nav-right{ display:flex; align-items:center; gap: 10px; }
@@ -234,13 +263,14 @@
       font-weight: 800;
       font-size: 13px;
       white-space: nowrap;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
       cursor:pointer;
     }
     .btn:hover{
       transform: translateY(-1px);
       background: var(--link-chip-hover);
       border-color: rgba(140,255,223,.22);
+      box-shadow: 0 16px 55px rgba(0,0,0,.16);
     }
     .btn.primary{
       border: 1px solid rgba(140,255,223,.44);
@@ -250,20 +280,11 @@
     .btn.primary:hover{
       border-color: rgba(140,255,223,.62);
       background: linear-gradient(135deg, rgba(140,255,223,.30), rgba(82,124,255,.18));
+      box-shadow: var(--glow);
     }
 
-    /* Theme toggle button */
-    .toggle{
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-    }
-    .toggle svg{
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-      opacity: .9;
-    }
+    .toggle{ display:inline-flex; align-items:center; gap: 10px; }
+    .toggle svg{ width: 16px; height: 16px; fill: currentColor; opacity: .9; }
 
     /* =========================
        PANELS / SECTIONS
@@ -279,7 +300,8 @@
     }
     .panel::before{
       content:"";
-      position:absolute; inset:-1px;
+      position:absolute;
+      inset:-1px;
       background:
         radial-gradient(520px 260px at 10% 10%, rgba(140,255,223,.18), transparent 60%),
         radial-gradient(520px 260px at 88% 30%, rgba(82,124,255,.14), transparent 62%);
@@ -299,7 +321,9 @@
     .right{ padding: 18px; display:flex; flex-direction:column; gap: 12px; }
 
     .kicker{
-      display:inline-flex; align-items:center; gap:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
       padding: 8px 12px;
       border-radius: 999px;
       border: 1px solid var(--border2);
@@ -335,7 +359,6 @@
       max-width: 780px;
     }
 
-    /* Typing */
     .typing{
       margin-top: 14px;
       font-size: 13.5px;
@@ -362,7 +385,6 @@
     }
     @keyframes blink{ 50%{ opacity: 0; } }
 
-    /* Tech wall */
     .tech-wall{
       margin-top: 18px;
       border: 1px solid var(--border2);
@@ -377,19 +399,22 @@
     [data-theme="light"] .tech-wall{ background: rgba(0,0,0,.02); }
 
     .logo{
-      display:flex; align-items:center; gap:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
       padding: 10px 12px;
       border-radius: 999px;
       border: 1px solid var(--border2);
       background: rgba(0,0,0,.10);
       backdrop-filter: blur(10px);
-      transition: transform .15s ease, background .15s ease, border-color .15s ease, filter .15s ease;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
     }
     [data-theme="light"] .logo{ background: rgba(255,255,255,.66); }
     .logo:hover{
       transform: translateY(-1px);
       background: rgba(0,0,0,.14);
       border-color: rgba(140,255,223,.22);
+      box-shadow: 0 18px 70px rgba(140,255,223,.08);
     }
     [data-theme="light"] .logo:hover{ background: rgba(255,255,255,.86); }
     .logo img{
@@ -400,20 +425,24 @@
     }
     .logo span{ font-size: 12.5px; color: var(--text); font-weight: 750; letter-spacing:.2px; }
 
-    /* External links row */
     .external{
       margin-top: 14px;
-      display:flex; flex-wrap:wrap;
-      gap: 10px; align-items:center; justify-content:flex-start;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      justify-content:flex-start;
     }
     .ext{
-      display:inline-flex; align-items:center; gap: 10px;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid var(--border2);
       background: rgba(0,0,0,.08);
       backdrop-filter: blur(10px);
-      transition: background .15s ease, transform .15s ease, border-color .15s ease;
+      transition: background .15s ease, transform .15s ease, border-color .15s ease, box-shadow .15s ease;
       font-size: 13px;
     }
     [data-theme="light"] .ext{ background: rgba(0,0,0,.03); }
@@ -421,12 +450,12 @@
       background: rgba(0,0,0,.12);
       transform: translateY(-1px);
       border-color: rgba(140,255,223,.22);
+      box-shadow: 0 16px 60px rgba(82,124,255,.08);
     }
     [data-theme="light"] .ext:hover{ background: rgba(0,0,0,.06); }
     .ext svg{ width:18px; height:18px; fill: currentColor; opacity:.9; }
     .ext span{ font-weight: 750; }
 
-    /* Right side portrait + stats */
     .portrait{
       border-radius: 22px;
       border: 1px solid var(--border);
@@ -442,22 +471,55 @@
       grid-template-columns: repeat(3, minmax(0,1fr));
       gap: 10px;
     }
-    .stat{
+
+    /* =========================
+       (4) PRO HOVER CARDS (glow + gradient border)
+       ========================= */
+    .stat, .card{
+      position: relative;
       border: 1px solid var(--border2);
       background: var(--card-bg);
       border-radius: 18px;
       padding: 12px 12px;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+      overflow: hidden;
+      isolation: isolate;
     }
-    .stat:hover{
-      transform: translateY(-1px);
+    .card{ padding: 14px 14px; min-height: 120px; }
+
+    /* gradient halo */
+    .stat::before, .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(260px 140px at 20% 15%, rgba(140,255,223,.18), transparent 60%),
+                  radial-gradient(240px 140px at 85% 25%, rgba(82,124,255,.14), transparent 62%);
+      opacity: 0;
+      transition: opacity .18s ease;
+      z-index: -1;
+      pointer-events:none;
+    }
+    .stat::after, .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 55%);
+      opacity: .65;
+      pointer-events:none;
+      z-index: -1;
+    }
+
+    .stat:hover, .card:hover{
+      transform: translateY(-2px);
       background: var(--card-hover);
-      border-color: rgba(140,255,223,.20);
+      border-color: rgba(140,255,223,.22);
+      box-shadow: var(--glow);
     }
+    .stat:hover::before, .card:hover::before{ opacity: 1; }
+
     .stat b{ display:block; font-size: 14px; letter-spacing:.2px; }
     .stat span{ display:block; color: var(--muted2); font-size: 12.5px; margin-top: 4px; line-height:1.3; }
 
-    /* Sections below fold */
     .section{ margin-top: 18px; }
     .section-head{
       display:flex; align-items:flex-end; justify-content:space-between;
@@ -473,21 +535,9 @@
       gap: 12px;
       padding: 16px 20px 20px;
     }
-    .card{
-      border: 1px solid var(--border2);
-      background: var(--card-bg);
-      border-radius: 18px;
-      padding: 14px 14px;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
-      min-height: 120px;
-    }
-    .card:hover{
-      transform: translateY(-2px);
-      background: var(--card-hover);
-      border-color: rgba(140,255,223,.20);
-    }
     .card b{ display:block; font-size: 14px; margin-bottom: 6px; }
     .card p{ margin:0; color: var(--muted); font-size: 13px; line-height:1.45; }
+
     .pillrow{ margin-top: 10px; display:flex; flex-wrap:wrap; gap: 8px; }
     .pill{
       font-size: 12px;
@@ -577,19 +627,18 @@
         </div>
       </div>
 
+      <!-- (3) nav links track active section -->
       <div class="nav-links" aria-label="Sections">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#publications">Publications</a>
-        <a href="#stack">Tech</a>
-        <a href="#links">Links</a>
+        <a href="#about" data-spy="about">About</a>
+        <a href="#projects" data-spy="projects">Projects</a>
+        <a href="#publications" data-spy="publications">Publications</a>
+        <a href="#stack" data-spy="stack">Tech</a>
+        <a href="#links" data-spy="links">Links</a>
       </div>
 
       <div class="nav-right">
         <button class="btn toggle" id="themeToggle" type="button" aria-label="Toggle dark/light mode" title="Toggle theme">
-          <svg id="themeIcon" viewBox="0 0 24 24" aria-hidden="true">
-            <!-- icon swapped via JS -->
-          </svg>
+          <svg id="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
           <span id="themeLabel">Theme</span>
         </button>
 
@@ -615,7 +664,6 @@
           <span class="cursor" aria-hidden="true"></span>
         </div>
 
-        <!-- Tech wall -->
         <div class="tech-wall" id="stack" aria-label="Technology stack">
           <a class="logo" href="#projects" title="ROS 2"><img src="assets/logos/ros2.svg" alt="ROS 2 logo" loading="lazy"><span>ROS 2</span></a>
           <a class="logo" href="#projects" title="NVIDIA / Jetson"><img src="assets/logos/nvidia.svg" alt="NVIDIA logo" loading="lazy"><span>Jetson</span></a>
@@ -628,7 +676,6 @@
           <a class="logo" href="#projects" title="SolidWorks"><img src="assets/logos/solidworks.svg" alt="SolidWorks logo" loading="lazy"><span>SolidWorks</span></a>
         </div>
 
-        <!-- External profiles -->
         <div class="external reveal" id="links" aria-label="External profiles">
           <a class="ext" href="https://scholar.google.com/citations?user=HSflBLwAAAAJ&hl=es&authuser=2" target="_blank" rel="me noopener">
             <svg viewBox="0 0 24 24"><path d="M12 3 1 8l11 5 9-4.09V16h2V8L12 3zm-6.5 8.27V14c0 2.21 2.91 4 6.5 4s6.5-1.79 6.5-4v-2.73L12 14l-6.5-2.73z"/></svg>
@@ -765,8 +812,6 @@
       toggleBtn.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
       toggleBtn.title = isLight ? "Switch to dark mode" : "Switch to light mode";
     }
-
-    // init button UI from current attr
     applyTheme(root.getAttribute("data-theme") || "dark");
 
     toggleBtn.addEventListener("click", () => {
@@ -774,7 +819,7 @@
       applyTheme(current === "dark" ? "light" : "dark");
     });
 
-    // ===== Typing effect =====
+    // ===== Typing effect (2) =====
     const phrases = [
       "FMI/Modelica ↔ ROS 2 co-simulation pipelines",
       "real-time edge AI inference with ONNX on Jetson",
@@ -797,17 +842,50 @@
 
     // ===== Scroll reveal (2) =====
     const revealEls = Array.from(document.querySelectorAll(".reveal"));
-    const observer = new IntersectionObserver((entries) => {
+    const revealObserver = new IntersectionObserver((entries) => {
       for (const e of entries){
         if (e.isIntersecting){
           e.target.classList.add("is-visible");
-          observer.unobserve(e.target);
+          revealObserver.unobserve(e.target);
         }
       }
     }, { root: null, threshold: 0.12 });
+    revealEls.forEach(el => revealObserver.observe(el));
 
-    revealEls.forEach(el => observer.observe(el));
+    // ===== (3) Active nav state while scrolling =====
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a[data-spy]'));
+    const sections = navLinks
+      .map(a => document.getElementById(a.dataset.spy))
+      .filter(Boolean);
+
+    function setActive(id){
+      navLinks.forEach(a => a.classList.toggle('is-active', a.dataset.spy === id));
+    }
+
+    // Default
+    setActive('about');
+
+    const spyObserver = new IntersectionObserver((entries) => {
+      // choose the most visible section
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a,b) => (b.intersectionRatio - a.intersectionRatio))[0];
+      if (visible && visible.target && visible.target.id){
+        setActive(visible.target.id);
+      }
+    }, {
+      root: null,
+      threshold: [0.15, 0.25, 0.35, 0.45, 0.55]
+    });
+
+    sections.forEach(s => spyObserver.observe(s));
+
+    // When clicking a nav link, set active immediately (nice UX)
+    navLinks.forEach(a => {
+      a.addEventListener('click', () => setActive(a.dataset.spy));
+    });
   </script>
 </body>
 </html>
+
 
